@@ -1,5 +1,6 @@
 from flask import Flask, render_template, session
 
+
 from todo_app.flask_config import Config
 
 _DEFAULT_ITEMS = [

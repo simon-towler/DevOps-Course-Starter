@@ -14,8 +14,8 @@ def index():
 
 @app.route('/addItem', methods=['POST'])
 def addItem():
-    itemName = request.form['itemName']
-    add_item(itemName)
+    itemName = request.form['name']
+    requests.post("https://trello.com/1/cards?key=58e57e7addabdcbcfae7f8d62560afbe&token=a9f6f553a13eceaf9eda2839cd85b665638644ca3c36011ccb18545f5325cd8d&idList=609392e0aaa6e8618e341f90", data={"name":itemName})
     return redirect("/", code=303)
 
 if __name__ == '__main__':

@@ -15,13 +15,13 @@ TRELLO_LIST_ID_DONE = "609392e0aaa6e8618e341f91"
 
 @app.route('/')
 def index():
-    response = requests.get(f"https://trello.com/1/lists/{TRELLO_LIST_ID_DOING}/cards?key={TRELLO_KEY}&token={TRELLO_TOKEN}")
+    response = requests.get(f"https://trello.com/1/lists/{TRELLO_LIST_ID_TODO}/cards?key={TRELLO_KEY}&token={TRELLO_TOKEN}")
     return render_template('index.html', items=response.json())
 
 @app.route('/addItem', methods=['POST'])
 def addItem():
     itemName = request.form['name']
-    requests.post(f"https://trello.com/1/cards?key={TRELLO_KEY}&token={TRELLO_TOKEN}&idList={TRELLO_LIST_ID_DOING}", data={"name":itemName})
+    requests.post(f"https://trello.com/1/cards?key={TRELLO_KEY}&token={TRELLO_TOKEN}&idList={TRELLO_LIST_ID_TODO}", data={"name":itemName})
     return redirect("/", code=303)
 
 @app.route('/completeItem', methods=['POST'])

@@ -39,3 +39,14 @@ def resetItem():
 
 if __name__ == '__main__':
     app.run()
+
+# not yet used
+class Item:
+    id = 0
+    status = "false"
+    title = ""
+
+    def __init__(self, id, status, title): 
+        self.id = id
+        self.status = status
+        self.title = title

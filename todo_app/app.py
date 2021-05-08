@@ -9,6 +9,8 @@ app.config.from_object(Config)
 TRELLO_KEY = os.environ.get('TRELLO_KEY')
 TRELLO_TOKEN = os.environ.get('TRELLO_TOKEN')
 TRELLO_LIST_ID_DOING = "609392e0aaa6e8618e341f90"
+TRELLO_LIST_ID_TODO = "609392e0aaa6e8618e341f8f"
+TRELLO_LIST_ID_DONE = "609392e0aaa6e8618e341f91"
 
 
 @app.route('/')
@@ -20,6 +22,12 @@ def index():
 def addItem():
     itemName = request.form['name']
     requests.post(f"https://trello.com/1/cards?key={TRELLO_KEY}&token={TRELLO_TOKEN}&idList={TRELLO_LIST_ID_DOING}", data={"name":itemName})
+    return redirect("/", code=303)
+
+@app.route('/completeItem', methods=['POST'])
+def completeItem():
+    itemId = request.form['id']
+    requests.put(f"https://trello.com/1/cards/{itemId}?key={TRELLO_KEY}&token={TRELLO_TOKEN}&idList={TRELLO_LIST_ID_DONE}")
     return redirect("/", code=303)
 
 if __name__ == '__main__':

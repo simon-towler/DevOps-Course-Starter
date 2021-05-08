@@ -15,8 +15,9 @@ TRELLO_LIST_ID_DONE = "609392e0aaa6e8618e341f91"
 
 @app.route('/')
 def index():
-    response = requests.get(f"https://trello.com/1/lists/{TRELLO_LIST_ID_TODO}/cards?key={TRELLO_KEY}&token={TRELLO_TOKEN}")
-    return render_template('index.html', items=response.json())
+    todos = requests.get(f"https://trello.com/1/lists/{TRELLO_LIST_ID_TODO}/cards?key={TRELLO_KEY}&token={TRELLO_TOKEN}")
+    dones = requests.get(f"https://trello.com/1/lists/{TRELLO_LIST_ID_DONE}/cards?key={TRELLO_KEY}&token={TRELLO_TOKEN}")
+    return render_template('index.html', todos=todos.json(), dones=dones.json())
 
 @app.route('/addItem', methods=['POST'])
 def addItem():
@@ -28,6 +29,12 @@ def addItem():
 def completeItem():
     itemId = request.form['id']
     requests.put(f"https://trello.com/1/cards/{itemId}?key={TRELLO_KEY}&token={TRELLO_TOKEN}&idList={TRELLO_LIST_ID_DONE}")
+    return redirect("/", code=303)
+
+@app.route('/resetItem', methods=['POST'])
+def resetItem():
+    itemId = request.form['id']
+    requests.put(f"https://trello.com/1/cards/{itemId}?key={TRELLO_KEY}&token={TRELLO_TOKEN}&idList={TRELLO_LIST_ID_TODO}")
     return redirect("/", code=303)
 
 if __name__ == '__main__':

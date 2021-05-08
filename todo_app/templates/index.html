@@ -9,18 +9,29 @@
 
   <div class="row">
     <div class="col-md-12">
-      <h2>Items</h2>
+      <h2>To-Do</h2>
       <ul class="list-group mb-4">
         <!-- List the todo items here -->
-        {% for item in items %}
-          <li>{{item.id}} - {{item.closed}} - {{item.name}}</li>
+        {% for todo in todos %}
+          <li>{{todo.id}} - {{todo.closed}} - {{todo.name}}</li>
           <form method="post" action="/completeItem">
-            <input type="hidden" id="id" name="id" value="{{item.id}}">
+            <input type="hidden" id="id" name="id" value="{{todo.id}}">
             <input type="submit" value="complete"></a>
           </form>
         {% endfor %}
       </ul>
-      <h2>Add an item</h2>
+      <h2>Done</h2>
+      <ul class="list-group mb-4">
+        <!-- List the done items here -->
+        {% for done in dones %}
+          <li>{{done.id}} - {{done.closed}} - {{done.name}}</li>
+          <form method="post" action="/resetItem">
+            <input type="hidden" id="id" name="id" value="{{done.id}}">
+            <input type="submit" value="reset"></a>
+          </form>
+        {% endfor %}
+      </ul>
+      <h2>Add a To-Do</h2>
       <form method="post" action="/addItem">
         <label for="name" style="padding-right: 5px;">Item name: </label>
         <input type="text" id="name" name="name" required>

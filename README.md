@@ -9,6 +9,7 @@ The project uses poetry for Python to create an isolated environment and manage 
 ```bash
 curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
 ```
+(This installer is deprecated. Poetry versions installed using this script will not be able to use 'self update' command to upgrade to 1.2.0a1 or later.)
 
 ### Poetry installation (PowerShell)
 
@@ -34,7 +35,7 @@ The `.env` file is used by flask to set environment variables when running `flas
 
 ## Running the App
 
-Once the all dependencies have been installed, start the Flask app in development mode within the poetry environment by running:
+Once all the dependencies have been installed, start the Flask app in development mode within the poetry environment by running:
 ```bash
 $ poetry run flask run
 ```

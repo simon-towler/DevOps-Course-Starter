@@ -6,18 +6,28 @@ import os
 
 app = Flask(__name__)
 app.config.from_object(Config)
+# TODO a test that the environment has these values could be handy
 TRELLO_KEY = os.environ.get('TRELLO_KEY')
 TRELLO_TOKEN = os.environ.get('TRELLO_TOKEN')
-TRELLO_LIST_ID_DOING = "609392e0aaa6e8618e341f90"
-TRELLO_LIST_ID_TODO = "609392e0aaa6e8618e341f8f"
-TRELLO_LIST_ID_DONE = "609392e0aaa6e8618e341f91"
-
+TRELLO_LIST_ID_DOING = os.environ.get('TRELLO_LIST_ID_DOING')
+TRELLO_LIST_ID_TODO = os.environ.get('TRELLO_LIST_ID_TODO')
+TRELLO_LIST_ID_DONE = os.environ.get('TRELLO_LIST_ID_DONE')
 
 @app.route('/')
 def index():
     todos = requests.get(f"https://trello.com/1/lists/{TRELLO_LIST_ID_TODO}/cards?key={TRELLO_KEY}&token={TRELLO_TOKEN}")
     dones = requests.get(f"https://trello.com/1/lists/{TRELLO_LIST_ID_DONE}/cards?key={TRELLO_KEY}&token={TRELLO_TOKEN}")
-    return render_template('index.html', todos=todos.json(), dones=dones.json())
+    # loop through these two lists and create an instance of Item for each element
+    todos = itemizeList(todos.json())
+    dones = itemizeList(dones.json())
+    return render_template('index.html', todos=todos, dones=dones)
+
+def itemizeList(list):
+    items = []
+    for item in list:
+        i = Item(item["id"], item["closed"], item["name"])
+        items.append(i)
+    return items
 
 @app.route('/addItem', methods=['POST'])
 def addItem():
@@ -43,10 +53,11 @@ if __name__ == '__main__':
 # not yet used
 class Item:
     id = 0
-    status = "false"
+    status = ""
     title = ""
 
-    def __init__(self, id, status, title): 
+    def __init__(self, id, closed, title): 
         self.id = id
-        self.status = status
+        self.status = closed
         self.title = title
+

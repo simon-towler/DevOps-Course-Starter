@@ -13,7 +13,7 @@
       <ul class="list-group mb-4">
         <!-- List the todo items here -->
         {% for todo in todos %}
-          <li>{{todo.id}} - {{todo.closed}} - {{todo.name}}</li>
+          <li>{{todo.id}} - {{todo.status}} - {{todo.title}}</li>
           <form method="post" action="/completeItem">
             <input type="hidden" id="id" name="id" value="{{todo.id}}">
             <input type="submit" value="complete"></a>
@@ -24,7 +24,7 @@
       <ul class="list-group mb-4">
         <!-- List the done items here -->
         {% for done in dones %}
-          <li>{{done.id}} - {{done.closed}} - {{done.name}}</li>
+          <li>{{done.id}} - {{done.status}} - {{done.title}}</li>
           <form method="post" action="/resetItem">
             <input type="hidden" id="id" name="id" value="{{done.id}}">
             <input type="submit" value="reset"></a>
